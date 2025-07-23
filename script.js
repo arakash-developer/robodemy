@@ -119,9 +119,9 @@ async function displayCourses(courses) {
     }" class="robodemy-course-image">
       <p>${allCategories ? allCategories : "All"}</p>
       <h2>${course.post_title}</h2>
-      <p class="robodemy-course-price">${
-        AllPrice.salePrice
-      }<del style="margin-left: 5px">${AllPrice.originalPrice}</del></p>
+      <p class="robodemy-course-price"><del style="margin-right: 5px">${
+        AllPrice.originalPrice
+      }</del>${AllPrice.salePrice}<span style="margin-left: 2px">tk</span></p>
       <a href="https://robodemybd.com/courses/${
         course.post_name
       }" target="_blank">See Details</a>
