@@ -29,14 +29,16 @@ async function fetchCourses() {
 
 function getCourseCategoriesArray(courses) {
   const categorySet = new Set();
+
+  // Collect real categories only
   courses.forEach(course => {
     if (Array.isArray(course.course_category) && course.course_category.length > 0) {
       course.course_category.forEach(cat => categorySet.add(cat.name));
-    } else {
-      categorySet.add("Uncategorized");
     }
   });
-  return Array.from(categorySet);
+
+  // Always start with "All"
+  return ["All", ...Array.from(categorySet)];
 }
 
 function renderCategoryTabs(categories, allCourses) {
@@ -54,19 +56,18 @@ function renderCategoryTabs(categories, allCourses) {
         .forEach(btn => btn.classList.remove("active"));
       tab.classList.add("active");
 
-      const filteredCourses = allCourses.filter(course => {
-        if (category === "Uncategorized") {
-          return !course.course_category || course.course_category.length === 0;
-        }
-        return course.course_category?.some(cat => cat.name === category);
-      });
+      const filteredCourses = category === "All"
+        ? allCourses
+        : allCourses.filter(course =>
+            course.course_category?.some(cat => cat.name === category)
+          );
 
       displayCourses(filteredCourses);
     });
 
     tabContainer.appendChild(tab);
 
-    if (index === 0) tab.click(); // Auto-click first tab
+    if (index === 0) tab.click(); // Auto-select "All"
   });
 }
 
@@ -81,7 +82,7 @@ function displayCourses(courses) {
   courses.forEach(course => {
     const allCategories = Array.isArray(course.course_category)
       ? course.course_category.map(cat => cat.name).join(", ")
-      : "All";
+      : "Uncategorized";
 
     const card = document.createElement("div");
     card.className = "robodemy-course-card";
