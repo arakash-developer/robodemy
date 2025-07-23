@@ -1,3 +1,4 @@
+
 .robodemy-header {
   text-align: center;
   margin-bottom: 20px;
@@ -41,11 +42,14 @@
 }
 
 .robodemy-course-card {
-  background: #fff;
+  box-sizing: border-box;
   padding: 15px;
+  border: 5px solid red;
+  border-radius: 20px;
+  /* margin: 15px; */
+  background-color: transparent;
   width: 100%;
   max-width: 420px;
-  border-radius: 8px;
   display: flex;
   flex-direction: column;
   transition: transform 0.2s ease;

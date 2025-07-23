@@ -11,14 +11,15 @@ async function fetchCourses() {
     const response = await fetch(apiUrl, {
       headers: {
         Authorization: `Basic ${credentials}`,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
 
     if (!response.ok) throw new Error("Failed to fetch courses");
 
     const result = await response.json();
     const courses = result.data.posts;
+    console.log("Fetched courses:", courses);
 
     const categories = getCourseCategoriesArray(courses);
     renderCategoryTabs(categories, courses);
@@ -31,9 +32,12 @@ function getCourseCategoriesArray(courses) {
   const categorySet = new Set();
 
   // Collect real categories only
-  courses.forEach(course => {
-    if (Array.isArray(course.course_category) && course.course_category.length > 0) {
-      course.course_category.forEach(cat => categorySet.add(cat.name));
+  courses.forEach((course) => {
+    if (
+      Array.isArray(course.course_category) &&
+      course.course_category.length > 0
+    ) {
+      course.course_category.forEach((cat) => categorySet.add(cat.name));
     }
   });
 
@@ -53,14 +57,15 @@ function renderCategoryTabs(categories, allCourses) {
     tab.addEventListener("click", () => {
       document
         .querySelectorAll(".robodemy-category-tab")
-        .forEach(btn => btn.classList.remove("active"));
+        .forEach((btn) => btn.classList.remove("active"));
       tab.classList.add("active");
 
-      const filteredCourses = category === "All Courses"
-        ? allCourses
-        : allCourses.filter(course =>
-            course.course_category?.some(cat => cat.name === category)
-          );
+      const filteredCourses =
+        category === "All Courses"
+          ? allCourses
+          : allCourses.filter((course) =>
+              course.course_category?.some((cat) => cat.name === category)
+            );
 
       displayCourses(filteredCourses);
     });
@@ -71,7 +76,23 @@ function renderCategoryTabs(categories, allCourses) {
   });
 }
 
-function displayCourses(courses) {
+async function getCoursePrice(courseId) {
+  try {
+    const response = await fetch(
+      `https://robodemybd.com/wp-json/robodemy/v1/course-price/${courseId}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch course price");
+    }
+    const priceData = await response.json();
+    return priceData.price || "Price not available";
+  } catch (error) {
+    console.error("Error fetching course price:", error.message);
+    return "Price not available";
+  }
+}
+
+async function displayCourses(courses) {
   container.innerHTML = "";
 
   if (courses.length === 0) {
@@ -79,10 +100,13 @@ function displayCourses(courses) {
     return;
   }
 
-  courses.forEach(course => {
+  for (const course of courses) {
     const allCategories = Array.isArray(course.course_category)
-      ? course.course_category.map(cat => cat.name).join(", ")
+      ? course.course_category.map((cat) => cat.name).join(", ")
       : "Uncategorized";
+
+    // Fetch course price
+    const price = await getCoursePrice(course.ID); // Get the course price
 
     const card = document.createElement("div");
     card.className = "robodemy-course-card";
@@ -90,10 +114,11 @@ function displayCourses(courses) {
       <img src="${course.thumbnail_url}" alt="${course.post_title}" class="robodemy-course-image">
       <p>${allCategories ? allCategories : "All"}</p>
       <h2>${course.post_title}</h2>
+      <p class="course-price">${price}</p>
       <a href="https://robodemybd.com/courses/${course.post_name}" target="_blank">See Details</a>
     `;
     container.appendChild(card);
-  });
+  }
 }
 
 fetchCourses();
