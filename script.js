@@ -88,11 +88,9 @@ function displayCourses(courses) {
     card.className = "robodemy-course-card";
     card.innerHTML = `
       <img src="${course.thumbnail_url}" alt="${course.post_title}" class="robodemy-course-image">
+      <p>${allCategories ? allCategories : "All"}</p>
       <h2>${course.post_title}</h2>
-      <p><strong>Status:</strong> ${course.post_status}</p>
-      <p><strong>Categories:</strong> ${allCategories}</p>
-      <p>${course.post_content}</p>
-      <a href="https://robodemybd.com/courses/${course.post_name}" target="_blank">View Course</a>
+      <a href="https://robodemybd.com/courses/${course.post_name}" target="_blank">See Details</a>
     `;
     container.appendChild(card);
   });
