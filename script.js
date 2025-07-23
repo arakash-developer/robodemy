@@ -81,7 +81,7 @@ function displayCourses(courses) {
   courses.forEach(course => {
     const allCategories = Array.isArray(course.course_category)
       ? course.course_category.map(cat => cat.name).join(", ")
-      : "Uncategorized";
+      : "All";
 
     const card = document.createElement("div");
     card.className = "robodemy-course-card";
