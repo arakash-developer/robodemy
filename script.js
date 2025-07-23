@@ -3,9 +3,8 @@ const apiKey = "key_184d71d88b68f12744a891aa992ecbf3";
 const apiSecret =
   "secret_f022c74ed9fbbe6ae09cba28787319bfde7755a65691c934105924c3f95f2c21";
 
-const container = document.getElementById("courses-container");
+const container = document.getElementById("robodemy-courses-container");
 
-// Fetch courses from the API
 async function fetchCourses() {
   try {
     const credentials = btoa(`${apiKey}:${apiSecret}`);
@@ -21,7 +20,6 @@ async function fetchCourses() {
     const result = await response.json();
     const courses = result.data.posts;
 
-    // Extract unique dynamic categories
     const categories = getCourseCategoriesArray(courses);
     renderCategoryTabs(categories, courses);
   } catch (error) {
@@ -29,7 +27,6 @@ async function fetchCourses() {
   }
 }
 
-// Return an array of unique category names (handles multiple categories per course)
 function getCourseCategoriesArray(courses) {
   const categorySet = new Set();
   courses.forEach(course => {
@@ -42,28 +39,25 @@ function getCourseCategoriesArray(courses) {
   return Array.from(categorySet);
 }
 
-// Dynamically render category tabs based on the unique categories
 function renderCategoryTabs(categories, allCourses) {
-  const tabContainer = document.getElementById("category-tabs");
+  const tabContainer = document.getElementById("robodemy-category-tabs");
   tabContainer.innerHTML = "";
 
   categories.forEach((category, index) => {
     const tab = document.createElement("button");
-    tab.className = "category-tab";
+    tab.className = "robodemy-category-tab";
     tab.textContent = category;
 
     tab.addEventListener("click", () => {
-      document.querySelectorAll(".category-tab").forEach(btn =>
-        btn.classList.remove("active")
-      );
+      document
+        .querySelectorAll(".robodemy-category-tab")
+        .forEach(btn => btn.classList.remove("active"));
       tab.classList.add("active");
 
       const filteredCourses = allCourses.filter(course => {
-        // If the category is Uncategorized, show courses with no categories or empty list
         if (category === "Uncategorized") {
           return !course.course_category || course.course_category.length === 0;
         }
-        // Otherwise, check if course has this category among its multiple categories
         return course.course_category?.some(cat => cat.name === category);
       });
 
@@ -72,14 +66,10 @@ function renderCategoryTabs(categories, allCourses) {
 
     tabContainer.appendChild(tab);
 
-    // Auto-select the first tab by clicking it
-    if (index === 0) {
-      tab.click();
-    }
+    if (index === 0) tab.click(); // Auto-click first tab
   });
 }
 
-// Render course cards in the courses container
 function displayCourses(courses) {
   container.innerHTML = "";
 
@@ -89,16 +79,14 @@ function displayCourses(courses) {
   }
 
   courses.forEach(course => {
-    // If the course has multiple categories, join them into a string
-    const allCategories =
-      Array.isArray(course.course_category) && course.course_category.length > 0
-        ? course.course_category.map(cat => cat.name).join(", ")
-        : "Uncategorized";
+    const allCategories = Array.isArray(course.course_category)
+      ? course.course_category.map(cat => cat.name).join(", ")
+      : "Uncategorized";
 
     const card = document.createElement("div");
-    card.className = "course-card";
+    card.className = "robodemy-course-card";
     card.innerHTML = `
-      <img src="${course.thumbnail_url}" alt="${course.post_title}" class="course-image">
+      <img src="${course.thumbnail_url}" alt="${course.post_title}" class="robodemy-course-image">
       <h2>${course.post_title}</h2>
       <p><strong>Status:</strong> ${course.post_status}</p>
       <p><strong>Categories:</strong> ${allCategories}</p>
