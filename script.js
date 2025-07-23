@@ -117,11 +117,24 @@ async function displayCourses(courses) {
     }" class="robodemy-course-image">
       <p>${allCategories ? allCategories : "All"}</p>
       <h2>${course.post_title}</h2>
-      <p class="robodemy-course-price"><del style="margin-right: 5px">${
-        price.regular_price ? price.regular_price : "Free"
-      }</del>${
-      price.current_price ? price.current_price : "Free"
-    }<span style="margin-left: 2px">tk</span></p>
+      <p class="robodemy-course-price">
+  ${
+    price.regular_price && parseFloat(price.regular_price) > 0
+      ? `<del style="margin-right: 5px">${parseFloat(
+          price.regular_price
+        ).toFixed(2)}</del>`
+      : ""
+  }
+  ${
+    price.current_price && parseFloat(price.current_price) > 0
+      ? `${parseFloat(price.current_price).toFixed(
+          2
+        )}<span style="margin-left: 2px">tk</span>`
+      : "Free"
+  }
+</p>
+
+
       <a href="https://robodemybd.com/courses/${
         course.post_name
       }" target="_blank">See Details</a>
