@@ -85,7 +85,7 @@ async function getCoursePrice(courseId) {
       throw new Error("Failed to fetch course price");
     }
     const priceData = await response.json();
-    return priceData || "Price not available";
+    return priceData || "Free";
   } catch (error) {
     console.error("Error fetching course price:", error.message);
     return "Price not available";
@@ -107,9 +107,7 @@ async function displayCourses(courses) {
 
     // Fetch course price
     const price = await getCoursePrice(course.ID); // Get the course price
-    console.log(price);
-    let AllPrice = await extractPrices(price.price_html);
-    console.log(AllPrice);
+    // console.log(AllPrice);
 
     const card = document.createElement("div");
     card.className = "robodemy-course-card";
@@ -120,28 +118,16 @@ async function displayCourses(courses) {
       <p>${allCategories ? allCategories : "All"}</p>
       <h2>${course.post_title}</h2>
       <p class="robodemy-course-price"><del style="margin-right: 5px">${
-        AllPrice.originalPrice
-      }</del>${AllPrice.salePrice}<span style="margin-left: 2px">tk</span></p>
+        price.regular_price ? price.regular_price : "Free"
+      }</del>${
+      price.current_price ? price.current_price : "Free"
+    }<span style="margin-left: 2px">tk</span></p>
       <a href="https://robodemybd.com/courses/${
         course.post_name
       }" target="_blank">See Details</a>
     `;
     container.appendChild(card);
   }
-}
-
-async function extractPrices(price_html) {
-  const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = price_html;
-  const delPrice = tempDiv.querySelector("del bdi");
-  const insPrice = tempDiv.querySelector("ins bdi");
-
-  const clean = (str) => (str ? parseFloat(str.replace(/[৳,]/g, "")) : null);
-
-  return {
-    originalPrice: clean(delPrice?.textContent),
-    salePrice: clean(insPrice?.textContent),
-  };
 }
 
 fetchCourses();
