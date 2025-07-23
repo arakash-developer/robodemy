@@ -37,8 +37,8 @@ function getCourseCategoriesArray(courses) {
     }
   });
 
-  // Always start with "All"
-  return ["All", ...Array.from(categorySet)];
+  // Always start with "All Courses"
+  return ["All Courses", ...Array.from(categorySet)];
 }
 
 function renderCategoryTabs(categories, allCourses) {
@@ -56,7 +56,7 @@ function renderCategoryTabs(categories, allCourses) {
         .forEach(btn => btn.classList.remove("active"));
       tab.classList.add("active");
 
-      const filteredCourses = category === "All"
+      const filteredCourses = category === "All Courses"
         ? allCourses
         : allCourses.filter(course =>
             course.course_category?.some(cat => cat.name === category)
@@ -67,7 +67,7 @@ function renderCategoryTabs(categories, allCourses) {
 
     tabContainer.appendChild(tab);
 
-    if (index === 0) tab.click(); // Auto-select "All"
+    if (index === 0) tab.click(); // Auto-select "All Courses"
   });
 }
 
