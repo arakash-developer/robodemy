@@ -116,7 +116,7 @@ async function displayCourses(courses) {
       course.post_title
     }" class="robodemy-course-image">
       <p>${allCategories ? allCategories : "All"}</p>
-      <h2>${course.post_title}</h2>
+      <h2 class="robodemy-course-title">${course.post_title}</h2>
       <p class="robodemy-course-price">
   ${
     price.regular_price && parseFloat(price.regular_price) > 0

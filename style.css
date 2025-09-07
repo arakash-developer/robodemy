@@ -74,12 +74,14 @@
 .robodemy-course-card h2 {
   font-size: 1.25rem;
   margin-bottom: 10px;
-  color: #333;
+  color: #fff;
   font-family: "Poppins", Sans-serif;
   font-size: 30px;
   font-weight: 700;
 }
-
+.robodemy-course-title{
+  color: #fff;
+}
 .robodemy-course-card p {
   line-height: 1.5;
   margin-bottom: 10px;
