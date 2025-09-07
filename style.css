@@ -1,5 +1,5 @@
-.robodemy-course-title{
-  color: #fff;
+.robodemy_course_main {
+  /* background: #000; */
 }
 .robodemy-header {
   text-align: center;
@@ -8,7 +8,7 @@
 
 .robodemy-header h1 {
   font-size: 2rem;
-  color: #333;
+  color: #fff;
 }
 
 #robodemy-category-tabs {
@@ -62,15 +62,13 @@
   transform: translateY(-5px);
 }
 
-.robodemy-course-card
- .robodemy-course-image {
+.robodemy-course-card .robodemy-course-image {
   width: 100%;
-  height: 230px; 
+  height: 230px;
   object-fit: cover;
   border-radius: 4px;
   margin-bottom: 10px;
 }
-
 
 .robodemy-course-card h2 {
   font-size: 1.25rem;
