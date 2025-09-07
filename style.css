@@ -8,6 +8,8 @@
 
 .robodemy-header h1 {
   font-size: 2rem;
+  font-family: "Poppins", Sans-serif;
+  font-weight: 700;
   color: #4568e8;
   text-transform: uppercase;
 }
@@ -30,7 +32,7 @@
   color: #fff;
   cursor: pointer;
   font-weight: 600;
-  font-family: poppins, sans-serif;
+  font-family: "Poppins", Sans-serif;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
