@@ -11,7 +11,7 @@
   font-family: "Poppins", Sans-serif;
   font-weight: 700;
   color: #4568e8;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 #robodemy-category-tabs {
