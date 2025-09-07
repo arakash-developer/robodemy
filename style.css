@@ -35,7 +35,7 @@
 .robodemy-category-tab.active {
   background-color: #4D88DD;
   color: #fff;
-  transform: scale(1.05);
+  /* transform: scale(1.05); */
 }
 
 #robodemy-courses-container {
